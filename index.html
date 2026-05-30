@@ -124,35 +124,88 @@
     <footer>
         <p>&copy; 2026 Azər Hidayətov. Bütün hüquqlar qorunur.</p>
     </footer>
-<script>
+<section id="terminal-section" class="container bg-light">
+        <h2>Canlı Kiber Terminal</h2>
+        <p class="subtitle">Sistemlə interaktiv əlaqə üçün əmrləri daxil edin. Başlamaq üçün <code>help</code> yazın.</p>
+        
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="terminal-title">azer@cyber-portfolio:~</span>
+            </div>
+            <div class="terminal-body" id="terminal-body">
+                <div class="terminal-line">Sistem uğurla başladıldı. Xoş gəldiniz!</div>
+                <div class="terminal-line">Köməkçi əmrlərin siyahısı üçün 'help' yazın.</div>
+            </div>
+            <div class="terminal-input-line">
+                <span class="terminal-prompt">azer@cyber-portfolio:~$</span>
+                <input type="text" id="terminal-input" autofocus autocomplete="off" spellcheck="false">
+            </div>
+        </div>
+    </section>
+
+    <script>
         const terminalInput = document.getElementById('terminal-input');
         const terminalBody = document.getElementById('terminal-body');
 
+        // Bizim Gizli CTF Bayrağımız
+        const SECRET_FLAG = "flag{cyber_sec_quba_2026}";
+
         terminalInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
-                const command = this.value.trim().toLowerCase();
+                const rawInput = this.value.trim();
+                const command = rawInput.toLowerCase();
                 
+                // İstifadəçinin yazdığı əmri ekrana çıxarırıq
                 const userLine = document.createElement('div');
                 userLine.style.color = '#fff';
-                userLine.innerHTML = `<span style="color: #38bdf8;">azer@cyber-portfolio:~$</span> ${this.value}`;
+                userLine.innerHTML = `<span style="color: #38bdf8;">azer@cyber-portfolio:~$</span> ${rawInput}`;
                 terminalBody.appendChild(userLine);
                 
                 const responseLine = document.createElement('div');
                 responseLine.style.marginTop = '5px';
                 responseLine.style.marginBottom = '10px';
 
-                if (command === 'help') {
+                // CTF Giriş Yoxlanışı (flag{...} formatında yazılarsa)
+                if (command.startsWith('flag{') && command.endsWith('}')) {
+                    if (command === SECRET_FLAG) {
+                        responseLine.innerHTML = `
+                            <span style="color: #22c55e; font-weight: bold;">[💎] TƏBRİKLƏR! DOĞRU BAYRAQ!</span><br>
+                            <span style="color: #4ade80;">[✔] Sistem tamamilə sındırıldı (Root Access Granted).</span><br>
+                            <span style="color: #38bdf8;">[★] Quba Kiber Laboratoriyasının fəxri hakeri statusunu qazandınız!</span>
+                        `;
+                    } else {
+                        responseLine.innerHTML = `<span style="color: #ef4444;">❌ Səhv Bayraq! Kod düzgün deyil. Saytın alt qatlarını daha yaxşı araşdırın!</span>`;
+                    }
+                } 
+                // Standart Terminal Əmrləri
+                else if (command === 'help') {
                     responseLine.innerHTML = `
                         Aktiv Əmrlər:<br>
                         - <strong>help</strong>: Əmrlərin siyahısını göstərir.<br>
-                        - <strong>about</strong>: Azər haqqında qısa kiber məlumat.<br>
+                        - <strong>about</strong>: Sistem sahibi haqqında məlumat.<br>
                         - <strong>scan</strong>: Virtual şəbəkə skanını başladır.<br>
+                        - <strong>hint</strong>: Gizli CTF tapşırığı üçün ipucu verir.<br>
                         - <strong>clear</strong>: Terminal ekranını təmizləyir.
                     `;
                 } else if (command === 'about') {
                     responseLine.innerHTML = "Sistem Sahibi: Azər Hidayətov.<br>İxtisas: İT və Kiberbəhlükəsizlik Mütəxəssisi.<br>Status: Aktiv laboratoriya mühiti.";
                 } else if (command === 'scan') {
-                    responseLine.innerHTML = "<span style='color: #eab308;'>[+] Skan başladılır...</span><br>[*] Nmap aktivləşdirildi...<br>[*] Hədəf 192.168.1.1 tapıldı - Port 80 (Open)<br><span style='color: #22c55e;'>[✔] Skan tamamlandı!</span>";
+                    responseLine.innerHTML = `
+                        <span style='color: #eab308;'>[+] Skan başladılır...</span><br>
+                        [*] Nmap aktivləşdirildi (nmap -sV -O)...<br>
+                        [*] Hədəf IP: 192.168.1.85 tapıldı.<br>
+                        [*] Port 80/tcp OPEN (HTTP Server: Apache)<br>
+                        <span style='color: #22c55e;'>[✔] Skan tamamlandı! Gizli qovluğu tapmaq üçün sistemi 'hint' edin.</span>
+                    `;
+                } else if (command === 'hint') {
+                    responseLine.innerHTML = `
+                        <span style='color: #eab308;'>[🔍 IPUCU]:</span> Sındırmaq istədiyiniz sistemin əsas sirləri çox vaxt kodun <strong>"Metadatalarında"</strong> və ya <strong>"Müəllif hüquqları (Footer)"</strong> hissəsində gizlənir.<br>
+                        Saytın ən aşağısına yaxşı baxın, bəlkə orada görünməyən bir şey var? 😉<br>
+                        Bayrağı tapdıqdan sonra terminala <code>flag{tapılan_kod}</code> formatında daxil edin!
+                    `;
                 } else if (command === 'clear') {
                     terminalBody.innerHTML = '';
                     this.value = '';
@@ -160,7 +213,7 @@
                 } else if (command === '') {
                     responseLine.innerHTML = '';
                 } else {
-                    responseLine.innerHTML = `<span style="color: #ef4444;">❌ Əmr tapılmadı: '${command}'. Mövcud əmrlər üçün 'help' yazın.</span>`;
+                    responseLine.innerHTML = `<span style="color: #ef4444;">❌ Əmr tapılmadı: '${rawInput}'. Mövcud əmrlər üçün 'help' yazın.</span>`;
                 }
 
                 terminalBody.appendChild(responseLine);
@@ -168,6 +221,7 @@
                 terminalBody.scrollTop = terminalBody.scrollHeight;
             }
         });
+    </script>
     </script>
 </body>
 </html>
