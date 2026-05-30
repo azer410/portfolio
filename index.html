@@ -124,104 +124,69 @@
     <footer>
         <p>&copy; 2026 Azər Hidayətov. Bütün hüquqlar qorunur.</p>
     </footer>
-<section id="terminal-section" class="container bg-light">
-        <h2>Canlı Kiber Terminal</h2>
-        <p class="subtitle">Sistemlə interaktiv əlaqə üçün əmrləri daxil edin. Başlamaq üçün <code>help</code> yazın.</p>
-        
-        <div class="terminal-window">
-            <div class="terminal-header">
-                <span class="dot red"></span>
-                <span class="dot yellow"></span>
-                <span class="dot green"></span>
-                <span class="terminal-title">azer@cyber-portfolio:~</span>
+<section id="cyber-map-section" class="container bg-light">
+        <h2>Canlı Qlobal Təhlükə Monitoru</h2>
+        <div class="attack-map-window">
+            <div class="map-header">
+                <div class="map-status"><span class="pulse-dot"></span><span>SİSTEM: CRITICAL</span></div>
             </div>
+            <div class="map-grid">
+                <div class="map-canvas-area" id="map-canvas">
+                    <div class="map-node" style="top: 25%; left: 15%;"><span>NY</span></div>
+                    <div class="map-node" style="top: 38%; left: 63%; background-color: #ef4444;"><span>Bakı</span></div>
+                    <div class="map-node" style="top: 42%; left: 66%; background-color: #22c55e;"><span>Quba</span></div>
+                    <div id="attack-beam-element" class="attack-beam"></div>
+                </div>
+                <div class="map-logs-side">
+                    <div class="log-title">ATTACK LOGS</div>
+                    <div class="log-stream" id="log-stream-box"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="terminal-section" class="container bg-light">
+        <h2>Canlı Kiber Terminal</h2>
+        <div class="terminal-window">
             <div class="terminal-body" id="terminal-body">
-                <div class="terminal-line">Sistem uğurla başladıldı. Xoş gəldiniz!</div>
-                <div class="terminal-line">Köməkçi əmrlərin siyahısı üçün 'help' yazın.</div>
+                <div>Sistem başladı. help yazın.</div>
             </div>
             <div class="terminal-input-line">
-                <span class="terminal-prompt">azer@cyber-portfolio:~$</span>
-                <input type="text" id="terminal-input" autofocus autocomplete="off" spellcheck="false">
+                <span class="terminal-prompt">azer@cyber:~$</span>
+                <input type="text" id="terminal-input" autofocus autocomplete="off">
             </div>
         </div>
     </section>
 
     <script>
-        const terminalInput = document.getElementById('terminal-input');
-        const terminalBody = document.getElementById('terminal-body');
+        // Xəritə Məntiqi
+        const logBox = document.getElementById('log-stream-box');
+        setInterval(() => {
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.innerHTML = `<span style="color:#ef4444;">DDoS</span>: IP ${Math.floor(Math.random()*255)}...`;
+            logBox.appendChild(entry);
+            if(logBox.children.length > 5) logBox.removeChild(logBox.children[0]);
+        }, 2000);
 
-        // Bizim Gizli CTF Bayrağımız
-        const SECRET_FLAG = "flag{cyber_sec_quba_2026}";
-
-        terminalInput.addEventListener('keydown', function(e) {
+        // Terminal Məntiqi
+        const input = document.getElementById('terminal-input');
+        const body = document.getElementById('terminal-body');
+        input.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
-                const rawInput = this.value.trim();
-                const command = rawInput.toLowerCase();
-                
-                // İstifadəçinin yazdığı əmri ekrana çıxarırıq
-                const userLine = document.createElement('div');
-                userLine.style.color = '#fff';
-                userLine.innerHTML = `<span style="color: #38bdf8;">azer@cyber-portfolio:~$</span> ${rawInput}`;
-                terminalBody.appendChild(userLine);
-                
-                const responseLine = document.createElement('div');
-                responseLine.style.marginTop = '5px';
-                responseLine.style.marginBottom = '10px';
-
-                // CTF Giriş Yoxlanışı (flag{...} formatında yazılarsa)
-                if (command.startsWith('flag{') && command.endsWith('}')) {
-                    if (command === SECRET_FLAG) {
-                        responseLine.innerHTML = `
-                            <span style="color: #22c55e; font-weight: bold;">[💎] TƏBRİKLƏR! DOĞRU BAYRAQ!</span><br>
-                            <span style="color: #4ade80;">[✔] Sistem tamamilə sındırıldı (Root Access Granted).</span><br>
-                            <span style="color: #38bdf8;">[★] Quba Kiber Laboratoriyasının fəxri hakeri statusunu qazandınız!</span>
-                        `;
-                    } else {
-                        responseLine.innerHTML = `<span style="color: #ef4444;">❌ Səhv Bayraq! Kod düzgün deyil. Saytın alt qatlarını daha yaxşı araşdırın!</span>`;
-                    }
-                } 
-                // Standart Terminal Əmrləri
-                else if (command === 'help') {
-                    responseLine.innerHTML = `
-                        Aktiv Əmrlər:<br>
-                        - <strong>help</strong>: Əmrlərin siyahısını göstərir.<br>
-                        - <strong>about</strong>: Sistem sahibi haqqında məlumat.<br>
-                        - <strong>scan</strong>: Virtual şəbəkə skanını başladır.<br>
-                        - <strong>hint</strong>: Gizli CTF tapşırığı üçün ipucu verir.<br>
-                        - <strong>clear</strong>: Terminal ekranını təmizləyir.
-                    `;
-                } else if (command === 'about') {
-                    responseLine.innerHTML = "Sistem Sahibi: Azər Hidayətov.<br>İxtisas: İT və Kiberbəhlükəsizlik Mütəxəssisi.<br>Status: Aktiv laboratoriya mühiti.";
-                } else if (command === 'scan') {
-                    responseLine.innerHTML = `
-                        <span style='color: #eab308;'>[+] Skan başladılır...</span><br>
-                        [*] Nmap aktivləşdirildi (nmap -sV -O)...<br>
-                        [*] Hədəf IP: 192.168.1.85 tapıldı.<br>
-                        [*] Port 80/tcp OPEN (HTTP Server: Apache)<br>
-                        <span style='color: #22c55e;'>[✔] Skan tamamlandı! Gizli qovluğu tapmaq üçün sistemi 'hint' edin.</span>
-                    `;
-                } else if (command === 'hint') {
-                    responseLine.innerHTML = `
-                        <span style='color: #eab308;'>[🔍 IPUCU]:</span> Sındırmaq istədiyiniz sistemin əsas sirləri çox vaxt kodun <strong>"Metadatalarında"</strong> və ya <strong>"Müəllif hüquqları (Footer)"</strong> hissəsində gizlənir.<br>
-                        Saytın ən aşağısına yaxşı baxın, bəlkə orada görünməyən bir şey var? 😉<br>
-                        Bayrağı tapdıqdan sonra terminala <code>flag{tapılan_kod}</code> formatında daxil edin!
-                    `;
-                } else if (command === 'clear') {
-                    terminalBody.innerHTML = '';
-                    this.value = '';
-                    return;
-                } else if (command === '') {
-                    responseLine.innerHTML = '';
-                } else {
-                    responseLine.innerHTML = `<span style="color: #ef4444;">❌ Əmr tapılmadı: '${rawInput}'. Mövcud əmrlər üçün 'help' yazın.</span>`;
+                const cmd = input.value.trim().toLowerCase();
+                const div = document.createElement('div');
+                div.innerHTML = `azer@cyber:~$ ${cmd}`;
+                body.appendChild(div);
+                if (cmd === 'help') {
+                    const res = document.createElement('div');
+                    res.innerHTML = "about, scan, clear";
+                    body.appendChild(res);
                 }
-
-                terminalBody.appendChild(responseLine);
-                this.value = '';
-                terminalBody.scrollTop = terminalBody.scrollHeight;
+                input.value = '';
+                body.scrollTop = body.scrollHeight;
             }
         });
-    </script>
     </script>
 </body>
 </html>
