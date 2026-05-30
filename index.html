@@ -34,6 +34,27 @@
             <li><strong>Sistemlər:</strong> Kali Linux, Windows Server, Windows 11</li>
         </ul>
     </section>
+    <section id="terminal-section" class="container bg-light">
+        <h2>Canlı Kiber Terminal</h2>
+        <p class="subtitle">Sistemlə interaktiv əlaqə üçün əmrləri daxil edin. Başlamaq üçün <code>help</code> yazın.</p>
+        
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="terminal-title">azer@cyber-portfolio:~</span>
+            </div>
+            <div class="terminal-body" id="terminal-body">
+                <div class="terminal-line">Sistem uğurla başladıldı. Xoş gəldiniz!</div>
+                <div class="terminal-line">Köməkçi əmrlərin siyahısı üçün 'help' yazın.</div>
+            </div>
+            <div class="terminal-input-line">
+                <span class="terminal-prompt">azer@cyber-portfolio:~$</span>
+                <input type="text" id="terminal-input" autofocus autocomplete="off" spellcheck="false">
+            </div>
+        </div>
+    </section>
 <section id="blog" class="container">
         <h2>Kiberbəhlükəsizlik Qeydlərim</h2>
         
@@ -103,6 +124,50 @@
     <footer>
         <p>&copy; 2026 Azər Hidayətov. Bütün hüquqlar qorunur.</p>
     </footer>
+<script>
+        const terminalInput = document.getElementById('terminal-input');
+        const terminalBody = document.getElementById('terminal-body');
 
+        terminalInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const command = this.value.trim().toLowerCase();
+                
+                const userLine = document.createElement('div');
+                userLine.style.color = '#fff';
+                userLine.innerHTML = `<span style="color: #38bdf8;">azer@cyber-portfolio:~$</span> ${this.value}`;
+                terminalBody.appendChild(userLine);
+                
+                const responseLine = document.createElement('div');
+                responseLine.style.marginTop = '5px';
+                responseLine.style.marginBottom = '10px';
+
+                if (command === 'help') {
+                    responseLine.innerHTML = `
+                        Aktiv Əmrlər:<br>
+                        - <strong>help</strong>: Əmrlərin siyahısını göstərir.<br>
+                        - <strong>about</strong>: Azər haqqında qısa kiber məlumat.<br>
+                        - <strong>scan</strong>: Virtual şəbəkə skanını başladır.<br>
+                        - <strong>clear</strong>: Terminal ekranını təmizləyir.
+                    `;
+                } else if (command === 'about') {
+                    responseLine.innerHTML = "Sistem Sahibi: Azər Hidayətov.<br>İxtisas: İT və Kiberbəhlükəsizlik Mütəxəssisi.<br>Status: Aktiv laboratoriya mühiti.";
+                } else if (command === 'scan') {
+                    responseLine.innerHTML = "<span style='color: #eab308;'>[+] Skan başladılır...</span><br>[*] Nmap aktivləşdirildi...<br>[*] Hədəf 192.168.1.1 tapıldı - Port 80 (Open)<br><span style='color: #22c55e;'>[✔] Skan tamamlandı!</span>";
+                } else if (command === 'clear') {
+                    terminalBody.innerHTML = '';
+                    this.value = '';
+                    return;
+                } else if (command === '') {
+                    responseLine.innerHTML = '';
+                } else {
+                    responseLine.innerHTML = `<span style="color: #ef4444;">❌ Əmr tapılmadı: '${command}'. Mövcud əmrlər üçün 'help' yazın.</span>`;
+                }
+
+                terminalBody.appendChild(responseLine);
+                this.value = '';
+                terminalBody.scrollTop = terminalBody.scrollHeight;
+            }
+        });
+    </script>
 </body>
 </html>
