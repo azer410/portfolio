@@ -236,3 +236,143 @@ footer {
     width: 100%;
     outline: none;
 }
+/* Kiber Hücum Xəritəsi Paneli */
+.attack-map-window {
+    background-color: #0b0f19;
+    border: 1px solid #1e293b;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+    margin: 30px 0;
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.map-header {
+    background-color: #111827;
+    padding: 12px 20px;
+    border-bottom: 1px solid #1e293b;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.map-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #ef4444;
+    font-weight: bold;
+}
+
+.pulse-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #ef4444;
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+    animation: mapPulse 1.5s infinite;
+}
+
+@keyframes mapPulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+.map-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    min-height: 300px;
+}
+
+/* Virtual Xəritə Sahəsi (Canvas tipli neon dizayn) */
+.map-canvas-area {
+    background-color: #070a12;
+    background-image: radial-gradient(#1e293b 1px, transparent 1px);
+    background-size: 20px 20px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid #1e293b;
+}
+
+.map-node {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background-color: #38bdf8;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #38bdf8;
+}
+
+.map-node span {
+    position: absolute;
+    top: 10px;
+    left: -20px;
+    font-size: 10px;
+    color: #64748b;
+    white-space: nowrap;
+}
+
+/* Canlı Lazer Hücum Animasiyası */
+.attack-beam {
+    position: absolute;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #ef4444, #fff);
+    transform-origin: left center;
+    animation: beamStrike 1.2s linear infinite;
+    opacity: 0;
+    z-index: 5;
+}
+
+@keyframes beamStrike {
+    0% { width: 0%; opacity: 1; }
+    80% { opacity: 1; }
+    100% { width: 100%; opacity: 0; }
+}
+
+/* Hücum Log Paneli */
+.map-logs-side {
+    background-color: #090d16;
+    padding: 15px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.log-title {
+    color: #94a3b8;
+    border-bottom: 1px solid #1e293b;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.log-stream {
+    height: 240px;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.log-entry {
+    animation: fadeInLog 0.3s ease-out;
+    white-space: nowrap;
+}
+
+@keyframes fadeInLog {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobil Uyğunluq */
+@media (max-width: 768px) {
+    .map-grid { grid-template-columns: 1fr; }
+    .map-canvas-area { min-height: 200px; border-right: none; border-bottom: 1px solid #1e293b; }
+}
