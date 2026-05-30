@@ -167,3 +167,72 @@ footer {
 .social-item.hackerone { border-left-color: #ff6e00; background-color: #1a1a1a; }
 .social-item.linkedin { border-left-color: #0077b5; background-color: #004182; }
 .social-item.telegram { border-left-color: #0088cc; background-color: #179cde; }
+/* Terminal Dizaynı */
+.terminal-window {
+    background-color: #090d16;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    font-family: 'Courier New', Courier, monospace;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    margin: 20px 0;
+}
+
+.terminal-header {
+    background-color: #1e293b;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #334155;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.dot.red { background-color: #ef4444; }
+.dot.yellow { background-color: #eab308; }
+.dot.green { background-color: #22c55e; }
+
+.terminal-title {
+    color: #94a3b8;
+    font-size: 13px;
+    margin-left: 10px;
+}
+
+.terminal-body {
+    padding: 15px;
+    height: 250px;
+    overflow-y: auto;
+    color: #4ade80;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: left;
+}
+
+.terminal-input-line {
+    display: flex;
+    padding: 10px 15px;
+    background-color: #0b0f19;
+    border-top: 1px solid #1e293b;
+    align-items: center;
+}
+
+.terminal-prompt {
+    color: #38bdf8;
+    margin-right: 10px;
+    white-space: nowrap;
+}
+
+#terminal-input {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    width: 100%;
+    outline: none;
+}
