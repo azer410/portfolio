@@ -46,6 +46,29 @@
                 <li><code>nmap -sV [IP_Ünvanı]</code> - Açıq portlarda işləyən xidmətlərin versiyalarını tapır.</li>
                 <li><code>nmap -O [IP_Ünvanı]</code> - Hədəf sistemin əməliyyat sistemini (OS) təxmin etməyə çalışır.</li>
             </ul>
+            <article class="blog-post" style="margin-top: 30px;">
+            <h3>Bettercap ilə MITM (Man-in-the-Middle) Simulyasiyası</h3>
+            <p class="post-date">Yayımlanma tarixi: 30 May 2026</p>
+            <p>Yerli şəbəkədə trafikin analiz edilməsi və təhlükəsizlik boşluqlarının yoxlanılması üçün Bettercap və Ettercap ən effektiv alətlərdəndir. ARP Spoofing hücumları vasitəsilə hədəf cihazla router arasındakı trafik manipulyasiya edilə bilər.</p>
+            <p><strong>Laboratoriya Qeydlərim:</strong></p>
+            <ul>
+                <li><code>bettercap -iface eth0</code> - Aləti müvafiq şəbəkə interfeysində başladır.</li>
+                <li><code>net.probe on</code> və <code>net.show</code> - Şəbəkədəki aktiv cihazları skan edir və siyahını göstərix.</li>
+                <li><code>set arp.spoof.targets [Hədəf_IP]</code> - Hücum olunacaq xüsusi hədəfi təyin edir və trafiki özünə yönəldir.</li>
+            </ul>
+        </article>
+
+        <article class="blog-post" style="margin-top: 30px;">
+            <h3>FortiGate (FortiOS) Firewall üzərində Şəbəkə Qorunması</h3>
+            <p class="post-date">Yayımlanma tarixi: 30 May 2026</p>
+            <p>Korporativ şəbəkələrin təhlükəsizliyini təmin etmək üçün FortiGate Firewall-un düzgün konfiqurasiya edilməsi şərtdir. Virtual laboratoriyamda Windows Server və Kali Linux maşınlarını FortiOS arxasında qorunan fərqli zonalar (DMZ, LAN) kimi sazlamışam.</p>
+            <p><strong>Əsas Təhlükəsizlik Siyasətləri (Policies):</strong></p>
+            <ul>
+                <li><strong>LAN to WAN:</strong> Daxili şəbəkədən internetə çıxışı tənzimləyir və lazımsız portları bloklayır.</li>
+                <li><strong>Web Filtering:</strong> Zərərli və fişinq (phishing) saytlarına girişin qarşısını avtomatik alır.</li>
+                <li><strong>SSL Inspection:</strong> Şifrələnmiş trafiki yoxlayaraq daxildə gizlənən zərərli proqramları aşkar edir.</li>
+            </ul>
+        </article>
         </article>
     <section id="contact" class="container bg-light">
         <h2>Mənimlə Əlaqə</h2>
