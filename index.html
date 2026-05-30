@@ -127,15 +127,11 @@
 <section id="cyber-map-section" class="container bg-light">
         <h2>Canlı Qlobal Təhlükə Monitoru</h2>
         <div class="attack-map-window">
-            <div class="map-header">
-                <div class="map-status"><span class="pulse-dot"></span><span>SİSTEM: CRITICAL</span></div>
-            </div>
             <div class="map-grid">
                 <div class="map-canvas-area" id="map-canvas">
                     <div class="map-node" style="top: 25%; left: 15%;"><span>NY</span></div>
                     <div class="map-node" style="top: 38%; left: 63%; background-color: #ef4444;"><span>Bakı</span></div>
                     <div class="map-node" style="top: 42%; left: 66%; background-color: #22c55e;"><span>Quba</span></div>
-                    <div id="attack-beam-element" class="attack-beam"></div>
                 </div>
                 <div class="map-logs-side">
                     <div class="log-title">ATTACK LOGS</div>
@@ -149,7 +145,7 @@
         <h2>Canlı Kiber Terminal</h2>
         <div class="terminal-window">
             <div class="terminal-body" id="terminal-body">
-                <div>Sistem başladı. help yazın.</div>
+                <div>Sistem başladı. Komandalar üçün 'help' yazın.</div>
             </div>
             <div class="terminal-input-line">
                 <span class="terminal-prompt">azer@cyber:~$</span>
@@ -160,10 +156,9 @@
 
     <script>
         // Xəritə Məntiqi
-        const logBox = document.getElementById('log-stream-box');
         setInterval(() => {
+            const logBox = document.getElementById('log-stream-box');
             const entry = document.createElement('div');
-            entry.className = 'log-entry';
             entry.innerHTML = `<span style="color:#ef4444;">DDoS</span>: IP ${Math.floor(Math.random()*255)}...`;
             logBox.appendChild(entry);
             if(logBox.children.length > 5) logBox.removeChild(logBox.children[0]);
@@ -175,14 +170,11 @@
         input.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 const cmd = input.value.trim().toLowerCase();
-                const div = document.createElement('div');
-                div.innerHTML = `azer@cyber:~$ ${cmd}`;
-                body.appendChild(div);
-                if (cmd === 'help') {
-                    const res = document.createElement('div');
-                    res.innerHTML = "about, scan, clear";
-                    body.appendChild(res);
-                }
+                body.innerHTML += `<div>azer@cyber:~$ ${cmd}</div>`;
+                if (cmd === 'help') body.innerHTML += "<div>about, scan, hint, clear</div>";
+                else if (cmd === 'scan') body.innerHTML += "<div style='color:#22c55e;'>Skan tamamlandı!</div>";
+                else if (cmd === 'hint') body.innerHTML += "<div style='color:#eab308;'>İpucu: Kodları yoxla!</div>";
+                else if (cmd === 'clear') body.innerHTML = '';
                 input.value = '';
                 body.scrollTop = body.scrollHeight;
             }
